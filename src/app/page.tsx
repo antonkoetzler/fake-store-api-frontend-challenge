@@ -1,26 +1,36 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import columns from './products/columns';
 import DataTable from './products/data_table';
-import productTableColumns from './products/product_table_columns';
+import { Loader2 } from 'lucide-react';
 
 export default function Home() {
-  const data: Product[] = [
-    {
-      id: 0,
-      title: 'Title',
-      price: 123.45,
-      description: 'Description',
-      category: 'Category',
-      image: 'Image',
-      rating: {
-        rate: 123.4567,
-        count: 123,
-      },
-    },
-  ];
+  return (
+    <ProductTable />
+  );
+}
+
+function ProductTable() {
+  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const result = await fetch('https://fakestoreapi.com/products');
+      const data: Product[] = await result.json();
+      setProducts(data);
+    };
+    fetchPosts();
+  }, []);
+
+  if (products === undefined) {
+    return <Loader2 className='animate-spin' />
+  }
 
   return (
     <DataTable
-      columns={productTableColumns}
-      data={data}
+      columns={columns}
+      data={products!}
     />
   );
 }

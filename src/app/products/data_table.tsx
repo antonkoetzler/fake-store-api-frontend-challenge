@@ -95,7 +95,7 @@ export default function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    className={isHighRated ? 'bg-yellow-100/10' : ''}
+                    className={isHighRated ? 'bg-yellow-100/20' : ''}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
