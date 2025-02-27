@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import columns from './products/columns';
 import DataTable from './products/data_table';
 import { Loader2 } from 'lucide-react';
+import { apiUrl } from '@/constants';
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ function ProductTable() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await fetch('https://fakestoreapi.com/products');
+      const result = await fetch(`${apiUrl}/products`);
       const data: Product[] = await result.json();
       setProducts(data);
     };
