@@ -95,7 +95,7 @@ function ProductForm({
 
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
-      const response = await fetch(`${apiUrl}/products`, {
+      const response = await fetch(`${apiUrl}/products/${product.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),

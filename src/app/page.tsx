@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import DataTable from './products/data_table';
 import { Loader2 } from 'lucide-react';
 import { apiUrl } from '@/constants';
-import createColumns from './products/columns';
+import createColumns from './products/create_columns';
 
 export default function Home() {
   return (
