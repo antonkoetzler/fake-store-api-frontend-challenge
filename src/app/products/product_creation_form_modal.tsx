@@ -96,14 +96,14 @@ function ProductForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
-      if (!response.ok) throw new Error('Failed to create product');
+      if (!response.ok) setFormMessage({ type: 'error', message: 'Error creating product!' });
       setFormMessage({ type: 'success', message: 'Product created successfully!' });
       setTimeout(() => {
         refreshTableAction();
         setIsDialogOpenAction(false);
       }, 1000);
     } catch (error) {
-      setFormMessage({ type: 'error', message: 'Error updating product!' });
+      setFormMessage({ type: 'error', message: 'Error creating product!' });
     }
   }
 

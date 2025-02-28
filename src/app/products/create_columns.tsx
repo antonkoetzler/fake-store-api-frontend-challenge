@@ -7,6 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Edit, Trash } from 'lucide-react';
 import { useState } from 'react';
 import ProductUpdateFormModal from './product_update_form_modal';
+import ProductDeletionFormModal from './product_deletion_form_modal';
 
 /**
  * [Product] columns for creating tables.
@@ -90,6 +91,7 @@ export default function createColumns({
       header: 'Actions',
       cell: ({ row }) => {
         const [isUpdateFormDialogOpen, setIsUpdateFormDialogOpen] = useState(false);
+        const [isDeletionFormDialogOpen, setIsDeletionFormDialogOpen] = useState(false);
 
         return (
           <div className='flex space-x-2'>
@@ -105,9 +107,18 @@ export default function createColumns({
                 refreshTableAction={refreshTableAction}
               />
             </Dialog>
-            <Button variant='ghost'>
-              <Trash className='h-10 w-10' />
-            </Button>
+            <Dialog open={isDeletionFormDialogOpen} onOpenChange={setIsDeletionFormDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant='ghost'>
+                  <Trash className='h-10 w-10' />
+                </Button>
+              </DialogTrigger>
+              <ProductDeletionFormModal
+                product={row.original}
+                setIsDialogOpenAction={setIsDeletionFormDialogOpen}
+                refreshTableAction={refreshTableAction}
+              />
+            </Dialog>
           </div>
         );
       },

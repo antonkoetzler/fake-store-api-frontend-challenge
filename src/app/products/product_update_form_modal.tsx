@@ -1,16 +1,16 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
-import { GenericFormField } from "@/components/ui/generic_form_field";
-import { Input } from "@/components/ui/input";
-import { apiUrl } from "@/constants";
-import { convertToBrazilianReal } from "@/functions/currency_formatter_functions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Button } from '@/components/ui/button';
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
+import { GenericFormField } from '@/components/ui/generic_form_field';
+import { Input } from '@/components/ui/input';
+import { apiUrl } from '@/constants';
+import { convertToBrazilianReal } from '@/functions/currency_formatter_functions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 /**
  * Objects being evaluated and sent by the form.
@@ -31,7 +31,7 @@ const schema = z.object({
  * @param refreshTableAction
  */
 interface ProductUpdateFormModalProps {
-  product: Product,
+  product: Product;
   setIsDialogOpenAction: Dispatch<SetStateAction<boolean>>;
   refreshTableAction: () => Promise<void>;
 }
@@ -100,7 +100,7 @@ function ProductForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
-      if (!response.ok) throw new Error('Failed to create product');
+      if (!response.ok) setFormMessage({ type: 'error', message: 'Error updating product!' });
       setFormMessage({ type: 'success', message: 'Product updated successfully!' });
       setTimeout(() => {
         refreshTableAction();
