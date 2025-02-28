@@ -23,7 +23,6 @@ type Product = {
   * Rating of a [Product].
   *
   * @see Product
-  *
   * @param rate
   * @param count
   */

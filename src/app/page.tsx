@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import columns from './products/columns';
 import DataTable from './products/data_table';
 import { Loader2 } from 'lucide-react';
 import { apiUrl } from '@/constants';
+import createColumns from './products/columns';
 
 export default function Home() {
   return (
@@ -33,7 +33,7 @@ function ProductTable() {
   return (
     <div className='px-4'>
       <DataTable<Product, unknown>
-        columns={columns}
+        columns={createColumns({ refreshTableAction: fetchPosts })}
         data={products!}
         refreshTableAction={fetchPosts}
       />

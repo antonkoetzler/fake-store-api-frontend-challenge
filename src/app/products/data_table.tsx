@@ -34,6 +34,7 @@ interface DataTableProps<TData, TValue> {
 
 /**
  * Table that lists [Product]s.
+ *
  * @see Product
  */
 export default function DataTable<TData, TValue>({
@@ -64,7 +65,7 @@ export default function DataTable<TData, TValue>({
     <div>
       <div className='flex flex-row items-center justify-between py-4'>
         <Input
-          placeholder='Filtrar por categoria'
+          placeholder='Search for a category...'
           value={(table.getColumn('category')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('category')?.setFilterValue(event.target.value)}
           className='max-w-sm'
@@ -136,17 +137,13 @@ export default function DataTable<TData, TValue>({
           size='sm'
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
+        >Previous</Button>
         <Button
           variant='outline'
           size='sm'
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+        >Next</Button>
       </div>
     </div>
   );

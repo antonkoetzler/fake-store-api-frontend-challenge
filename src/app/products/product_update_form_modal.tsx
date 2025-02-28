@@ -1,51 +1,16 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Form } from '@/components/ui/form';
-import { GenericFormField } from '@/components/ui/generic_form_field';
-import { Input } from '@/components/ui/input';
-import { apiUrl } from '@/constants';
-import { convertToBrazilianReal } from '@/functions/currency_formatter_functions';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-/**
- * ProductCreationFormModal props.
- *
- * @see ProductCreationFormModal
- * @param setIsDialogOpenActions
- * @param refreshTableAction
- */
-interface ProductCreationFormModalProps {
-  setIsDialogOpenAction: Dispatch<SetStateAction<boolean>>;
-  refreshTableAction: () => Promise<void>;
-}
-
-/**
- * Form modal that registers Products
- *
- * @see Products
- * @param ProductCreationFormModalProps
- */
-export default function ProductCreationFormModal({
-  setIsDialogOpenAction,
-  refreshTableAction,
-}: ProductCreationFormModalProps) {
-  return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Cadastre um produto</DialogTitle>
-      </DialogHeader>
-      <ProductForm
-        setIsDialogOpenAction={setIsDialogOpenAction}
-        refreshTableAction={refreshTableAction}
-      />
-    </DialogContent>
-  );
-}
+import { Button } from "@/components/ui/button";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form } from "@/components/ui/form";
+import { GenericFormField } from "@/components/ui/generic_form_field";
+import { Input } from "@/components/ui/input";
+import { apiUrl } from "@/constants";
+import { convertToBrazilianReal } from "@/functions/currency_formatter_functions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 /**
  * Objects being evaluated and sent by the form.
@@ -59,14 +24,53 @@ const schema = z.object({
 });
 
 /**
+ * ProductUpdateFormModal props.
+ *
+ * @see ProductUpdateFormModal
+ * @param setIsDialogOpenActions
+ * @param refreshTableAction
+ */
+interface ProductUpdateFormModalProps {
+  product: Product,
+  setIsDialogOpenAction: Dispatch<SetStateAction<boolean>>;
+  refreshTableAction: () => Promise<void>;
+}
+
+/**
+ * Form modal that updates a Product
+ *
+ * @see Product
+ * @param ProductUpdateFormModalProps
+ */
+export default function ProductUpdateFormModal({
+  product,
+  setIsDialogOpenAction,
+  refreshTableAction,
+}: ProductUpdateFormModalProps) {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Update {product.title}</DialogTitle>
+      </DialogHeader>
+      <ProductForm
+        product={product}
+        setIsDialogOpenAction={setIsDialogOpenAction}
+        refreshTableAction={refreshTableAction}
+      />
+    </DialogContent>
+  );
+}
+
+/**
  * The actual form component.
  *
  * @param ProductCreationFormModalProps
  */
 function ProductForm({
+  product,
   setIsDialogOpenAction,
   refreshTableAction,
-}: ProductCreationFormModalProps) {
+}: ProductUpdateFormModalProps) {
   const [formMessage, setFormMessage] = useState<
     {
       type: 'success' | 'error',
@@ -81,23 +85,23 @@ function ProductForm({
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: '',
-      price: 0,
-      description: '',
-      category: '',
-      image: '',
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      image: product.image,
     },
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
       const response = await fetch(`${apiUrl}/products`, {
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
       if (!response.ok) throw new Error('Failed to create product');
-      setFormMessage({ type: 'success', message: 'Product created successfully!' });
+      setFormMessage({ type: 'success', message: 'Product updated successfully!' });
       setTimeout(() => {
         refreshTableAction();
         setIsDialogOpenAction(false);
@@ -114,7 +118,7 @@ function ProductForm({
           control={form.control}
           name='title'
           label='Title'
-          builder={(field) => <Input required={true} {...field} />}
+          builder={(field) => <Input placeholder={product.title} {...field} />}
         />
         <GenericFormField
           control={form.control}
@@ -130,7 +134,7 @@ function ProductForm({
               <Input
                 value={convertToBrazilianReal(field.value.toString())}
                 onChange={handleChange}
-                placeholder='R$ 0,00'
+                placeholder={`R$ ${convertToBrazilianReal(product.price.toString())}`}
                 type='text'
               />
             );
@@ -140,19 +144,19 @@ function ProductForm({
           control={form.control}
           name='description'
           label='Description'
-          builder={(field) => <Input {...field} />}
+          builder={(field) => <Input placeholder={product.description} {...field} />}
         />
         <GenericFormField
           control={form.control}
           name='category'
           label='Category'
-          builder={(field) => <Input {...field} />}
+          builder={(field) => <Input placeholder={product.category} {...field} />}
         />
         <GenericFormField
           control={form.control}
           name='image'
           label='Image'
-          builder={(field) => <Input {...field} />}
+          builder={(field) => <Input placeholder={product.image} {...field} />}
         />
         {
           formMessage.message !== undefined
