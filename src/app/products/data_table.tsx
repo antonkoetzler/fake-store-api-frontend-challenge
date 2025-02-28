@@ -22,11 +22,14 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import React from 'react';
+import { useState } from 'react';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import ProductCreationFormModal from './product_creation_form_modal';
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  refreshTableAction: () => Promise<void>;
 }
 
 /**
@@ -36,9 +39,11 @@ interface DataTableProps<TData, TValue> {
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  refreshTableAction,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [isCreationFormDialogOpen, setIsCreationFormDialogOpen] = useState(false);
 
   const table = useReactTable({
     data,
@@ -57,13 +62,22 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className='flex items-center py-4'>
+      <div className='flex flex-row items-center justify-between py-4'>
         <Input
           placeholder='Filtrar por categoria'
           value={(table.getColumn('category')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('category')?.setFilterValue(event.target.value)}
           className='max-w-sm'
         />
+        <Dialog open={isCreationFormDialogOpen} onOpenChange={setIsCreationFormDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant='outline'>Create a product</Button>
+          </DialogTrigger>
+          <ProductCreationFormModal
+            setIsDialogOpenAction={setIsCreationFormDialogOpen}
+            refreshTableAction={refreshTableAction}
+          />
+        </Dialog>
       </div>
       <div className='rounded-md border'>
         <Table>
@@ -95,7 +109,8 @@ export default function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    className={isHighRated ? 'bg-yellow-100/20' : ''}
+                    className={`${isHighRated ? 'bg-yellow-100/20' : ''} cursor-pointer`}
+                    onClick={() => console.log('Hello')}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -136,4 +151,3 @@ export default function DataTable<TData, TValue>({
     </div>
   );
 }
-

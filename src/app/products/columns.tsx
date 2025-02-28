@@ -1,8 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { convertToBrazilianReal } from '@/functions/currency_formatter_functions';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Edit, Trash } from 'lucide-react';
 
 /**
  * [Product] columns for creating tables.]
@@ -11,26 +12,26 @@ import { ArrowUpDown } from 'lucide-react';
  */
 const columns: ColumnDef<Product>[] = [
   {
+    accessorKey: 'id',
+    header: 'ID',
+  },
+  {
     accessorKey: 'image',
-    header: 'Imagem',
+    header: 'Image',
     cell: ({ row }) => {
       return (
         <img
           width={50}
           className={'rounded-md aspect-auto object-contain'}
           src={row.getValue('image')}
-          alt={'Produto imagem'}
+          alt={row.getValue('title')}
         />
       );
     },
   },
   {
-    accessorKey: 'id',
-    header: 'ID',
-  },
-  {
     accessorKey: 'title',
-    header: 'Titulo',
+    header: 'Title',
   },
   {
     accessorKey: 'price',
@@ -40,41 +41,55 @@ const columns: ColumnDef<Product>[] = [
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Price
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('price'))
-      const formatted = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(amount)
-      return <div className='font-medium'>{formatted}</div>
-    },
+    cell: ({ row }) => <div className='font-medium'>{convertToBrazilianReal(row.getValue('price'))}</div>,
   },
   {
     accessorKey: 'description',
-    header: 'Descrição',
+    header: 'Description',
   },
   {
     accessorKey: 'category',
-    header: 'Categoria',
+    header: 'Category',
     cell: ({ row }) => {
       const category: string = row.getValue<string>('category');
-      return <div>{category.charAt(0).toUpperCase() + category.slice(1)}</div>;
+      return (
+        <div className={'w-[130px] flex flex-col justify-center'}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </div>
+      );
     },
   },
   {
     accessorKey: 'rating',
-    header: 'Avaliação',
+    header: 'Rating',
     cell: ({ row }) => {
       const rating: Rating = row.getValue('rating');
       return (
         <div className={'w-[130px] flex flex-col justify-center items-center'}>
           <div>{rating.rate}/5</div>
-          <div># de avaliações: {rating.count}</div>
+          <div># of reviews: {rating.count}</div>
         </div>
       );
     },
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: () => (
+      <div className='flex space-x-2'>
+        <Button variant='ghost'>
+          <Edit className='h-10 w-10' />
+        </Button>
+        <Button variant='ghost'>
+          <Trash className='h-10 w-10' />
+        </Button>
+      </div>
+    ),
   },
 ];
 

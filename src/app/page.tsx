@@ -15,12 +15,14 @@ export default function Home() {
 function ProductTable() {
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
 
+  const fetchPosts = async () => {
+    if (products !== undefined) setProducts(undefined);
+    const result = await fetch(`${apiUrl}/products`);
+    const data: Product[] = await result.json();
+    setProducts(data);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const result = await fetch(`${apiUrl}/products`);
-      const data: Product[] = await result.json();
-      setProducts(data);
-    };
     fetchPosts();
   }, []);
 
@@ -29,9 +31,12 @@ function ProductTable() {
   }
 
   return (
-    <DataTable
-      columns={columns}
-      data={products!}
-    />
+    <div className='px-4'>
+      <DataTable<Product, unknown>
+        columns={columns}
+        data={products!}
+        refreshTableAction={fetchPosts}
+      />
+    </div>
   );
 }
