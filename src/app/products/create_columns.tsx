@@ -68,7 +68,7 @@ export default function createColumns({
       cell: ({ row }) => {
         const category: string = row.getValue<string>('category');
         return (
-          <div className={'w-[130px] flex flex-col justify-center'}>
+          <div className={'w-[200px] flex flex-col justify-center'}>
             {category.charAt(0).toUpperCase() + category.slice(1)}
           </div>
         );

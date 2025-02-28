@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --watch --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.2",
@@ -31,6 +31,7 @@
     "@eslint/eslintrc": "^3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

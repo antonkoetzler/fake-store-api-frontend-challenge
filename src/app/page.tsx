@@ -24,7 +24,7 @@ function Title() {
 
 function Divider() {
   return (
-    <div className='w-full h-[1] bg-muted' />
+    <div role='separator' className='w-full h-[1] bg-muted' />
   );
 }
 
@@ -40,14 +40,14 @@ function ProductTable() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   if (products === undefined) {
-    return <Loader2 className='animate-spin' />
+    return <Loader2 role='status' className='animate-spin' />
   }
 
   return (
-    <div className='px-4'>
+    <div role='table' className='px-4'>
       <DataTable<Product, unknown>
         columns={createColumns({ refreshTableAction: fetchPosts })}
         data={products!}
