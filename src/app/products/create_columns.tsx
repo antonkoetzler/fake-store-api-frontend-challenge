@@ -56,7 +56,7 @@ export default function createColumns({
           </Button>
         );
       },
-      cell: ({ row }) => <div className='font-medium'>{convertToBrazilianReal(row.getValue('price'))}</div>,
+      cell: ({ row }) => <div className='font-medium text-center'>{convertToBrazilianReal(row.getValue('price'))}</div>,
     },
     {
       accessorKey: 'description',
@@ -64,11 +64,13 @@ export default function createColumns({
     },
     {
       accessorKey: 'category',
-      header: 'Category',
+      header: () => {
+        return <div className='text-center'>Category</div>
+      },
       cell: ({ row }) => {
         const category: string = row.getValue<string>('category');
         return (
-          <div className={'w-[200px] flex flex-col justify-center'}>
+          <div className='w-[200px] flex flex-col justify-center truncate line-clamp-3'>
             {category.charAt(0).toUpperCase() + category.slice(1)}
           </div>
         );
@@ -76,20 +78,24 @@ export default function createColumns({
     },
     {
       accessorKey: 'rating',
-      header: 'Rating',
+      header: () => {
+        return <div className='text-center'>Rating</div>
+      },
       cell: ({ row }) => {
         const rating: Rating = row.getValue('rating');
         return (
           <div className={'w-[130px] flex flex-col justify-center items-center'}>
             <div>{rating.rate}/5</div>
-            <div># of reviews: {rating.count}</div>
+            <div># of rating: {rating.count}</div>
           </div>
         );
       },
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: () => {
+        return <div className='text-center'>Actions</div>
+      },
       cell: ({ row }) => {
         const [isVisualizationFormDialogOpen, setIsVisualizationFormDialogOpen] = useState(false);
         const [isUpdateFormDialogOpen, setIsUpdateFormDialogOpen] = useState(false);

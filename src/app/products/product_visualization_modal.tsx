@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { convertToBrazilianReal } from "@/functions/currency_formatter_functions";
 import { Dispatch, SetStateAction } from "react";
 
 /**
@@ -56,17 +57,27 @@ function ProductVisualization({
   product,
 }: ProductVisualizationProps) {
   return (
-    <div className='flex flex-col'>
-      <img src={product.image} />
-      <div>{product.id}</div>
-      <div>{product.title}</div>
-      <div className='flex flex-col'>
-        <div>{product.rating.rate}/5</div>
-        <div># of reviews: {product.rating.count}</div>
+    <div className='flex flex-col flex-wrap align-center justify-center gap-4'>
+      <div className='flex flex-row gap-4 items-center'>
+        <img
+          width={130}
+          className={'rounded-md aspect-auto object-contain'}
+          src={product.image}
+          alt={product.title}
+        />
+        <div className='flex flex-col'>
+          <div><strong>ID:</strong> {product.id}</div>
+          <div><strong>Title:</strong> {product.title}</div>
+          <div><strong>Rating:</strong> {product.rating.rate}/5</div>
+          <div><strong># of ratings:</strong> {product.rating.count}</div>
+          <div><strong>Price:</strong> {convertToBrazilianReal(product.price.toString())}</div>
+          <div><strong>Category:</strong> {product.category}</div>
+        </div>
       </div>
-      <div>{product.price}</div>
-      <div>{product.category}</div>
-      <div>{product.description}</div>
+      <div className='flex flex-col items-center justify-center'>
+        <div><strong>Description:</strong></div>
+        <div>{product.description}</div>
+      </div>
     </div>
   );
 }
@@ -91,7 +102,7 @@ function CloseButton({
 }: CloseButtonProps) {
   return (
     <Button
-      variant='ghost'
+      className='w-full'
       onClick={() => setIsDialogOpenAction(false)}
     >Close</Button>
   );

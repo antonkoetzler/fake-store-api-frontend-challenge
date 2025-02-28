@@ -40,14 +40,18 @@ function ProductTable() {
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+  }, []);
 
   if (products === undefined) {
-    return <Loader2 role='status' className='animate-spin' />
+    return (
+      <div className='flex align-center justify-center p-4'>
+        <Loader2 role='status' className='animate-spin' />
+      </div>
+    );
   }
 
   return (
-    <div role='table' className='px-4'>
+    <div role='table' className='px-4 items-center'>
       <DataTable<Product, unknown>
         columns={createColumns({ refreshTableAction: fetchPosts })}
         data={products!}

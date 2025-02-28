@@ -161,7 +161,7 @@ function ProductForm({
             className={`p-4 ${formMessage.type == 'success' ? 'bg-green-600' : 'bg-red-500'} rounded-xl w-full text-center`}
           >{formMessage.message}</div>
         }
-        <Button className='w-full' type='submit'>Criar</Button>
+        <Button className='w-full' type='submit'>Create</Button>
       </form>
     </Form>
   );
