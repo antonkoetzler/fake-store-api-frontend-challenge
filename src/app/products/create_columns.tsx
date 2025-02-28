@@ -41,7 +41,9 @@ export default function createColumns({
     },
     {
       accessorKey: 'title',
-      header: 'Title',
+      header: () => {
+        return <div className='text-center'>Title</div>
+      },
     },
     {
       accessorKey: 'price',
