@@ -8,7 +8,23 @@ import createColumns from './products/create_columns';
 
 export default function Home() {
   return (
-    <ProductTable />
+    <>
+      <Title />
+      <Divider />
+      <ProductTable />
+    </>
+  );
+}
+
+function Title() {
+  return (
+    <div className='text-center text-3xl font-bold p-4 text-gray-300'>FakeStoreAPI Product CRUD</div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className='w-full h-[1] bg-muted' />
   );
 }
 

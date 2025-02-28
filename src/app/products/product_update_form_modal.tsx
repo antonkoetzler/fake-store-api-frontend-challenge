@@ -27,7 +27,7 @@ const schema = z.object({
  * ProductUpdateFormModal props.
  *
  * @see ProductUpdateFormModal
- * @param setIsDialogOpenActions
+ * @param setIsDialogOpenAction
  * @param refreshTableAction
  */
 interface ProductUpdateFormModalProps {

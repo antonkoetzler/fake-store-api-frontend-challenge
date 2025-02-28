@@ -110,7 +110,7 @@ export default function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    className={`${isHighRated ? 'bg-yellow-100/20' : ''} cursor-pointer`}
+                    className={isHighRated ? 'bg-[#EFBF04]/25' : ''}
                     onClick={() => console.log('Hello')}
                   >
                     {row.getVisibleCells().map((cell) => (
