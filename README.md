@@ -1,5 +1,8 @@
 # FakeStore API Product CRUD
 
+## Tech stack
+Next, React, Shadcn and Tailwind
+
 ## Running the site
 
 1. Make sure [Node](https://nodejs.org/en/download) is installed;
